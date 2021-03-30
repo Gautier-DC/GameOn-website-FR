@@ -36,7 +36,6 @@ function nameCheked(value) {
     if(value != "" && value.length > 2 && value != null){
       return true;
     }
-      alert("le champ ne peut pas être vide");
       return false;
 }
 
@@ -47,7 +46,6 @@ function isEmail(value){
   if (regEmail.test(value)){    
     return true;
   } 
-    alert('adresse mail invalide');
     return false;
 }
 
@@ -58,24 +56,49 @@ function isNumeric(value) {
   } return true;
 }
 
+//function at least one radio checked
 function atLeastOneCheck(input) {
   for (var i = 0; i < input.length ; i++){
     if (input[i].checked){
       return true;
     }
   } return false;
-  alert('radio');
+  
+}
+
+// function for accepting general condition
+function checkboxChecked(input) {
+  if (input.checked){
+    return true;
+  } alert('cgv') 
+  return false;
 }
 
 //validation of the formular
 
 function validate(){
-  console.log('hey', document.forms['reserve']['first'].value);
-  nameCheked(document.forms['reserve']['first'].value);
-  nameCheked(document.forms['reserve']['last'].value);
-  isEmail(document.forms['reserve']['email'].value);
-  isNumeric(document.forms['reserve']['quantity'].value);
-  atLeastOneCheck(document.forms['reserve']['location']);
+  let isErrors = false;
+  if(!nameCheked(document.forms['reserve']['firstName'].value)){
+    isErrors = true;
+  }
+  if(!nameCheked(document.forms['reserve']['lastName'].value)){
+    isErrors = true;
+  }
+  if(!isEmail(document.forms['reserve']['email'].value)){
+    isErrors = true;
+  }
+  if(!isNumeric(document.forms['reserve']['quantity'].value)){
+    isErrors = true;
+  }
+  if(!atLeastOneCheck(document.forms['reserve']['location'])){
+    isErrors = true;
+  }
+  if(!checkboxChecked(document.forms['reserve']['cgv'])){
+    isErrors = true;
+  }
+  if(isErrors == true){
+    return false;
+  }
 
 
 
