@@ -32,13 +32,12 @@ function closeModal() {
 
 //function check if it's empty
 function nameCheked(value) {
-  console.log('hello',value);
-    if(value != "" && value.length > 2){
+  value = value.trim();
+    if(value != "" && value.length > 2 && value != null){
       return true;
-    } else {
+    }
       alert("le champ ne peut pas être vide");
       return false;
-    }
 }
 
 //function check if it's an email
@@ -47,10 +46,25 @@ function isEmail(value){
 
   if (regEmail.test(value)){    
     return true;
-  } else {
+  } 
     alert('adresse mail invalide');
     return false;
-  }
+}
+
+//function is numerique
+function isNumeric(value) {
+  if (isNaN(value)){
+    return false;
+  } return true;
+}
+
+function atLeastOneCheck(input) {
+  for (var i = 0; i < input.length ; i++){
+    if (input[i].checked){
+      return true;
+    }
+  } return false;
+  alert('radio');
 }
 
 //validation of the formular
@@ -60,7 +74,8 @@ function validate(){
   nameCheked(document.forms['reserve']['first'].value);
   nameCheked(document.forms['reserve']['last'].value);
   isEmail(document.forms['reserve']['email'].value);
-
+  isNumeric(document.forms['reserve']['quantity'].value);
+  atLeastOneCheck(document.forms['reserve']['location']);
 
 
 
