@@ -12,6 +12,8 @@ const modalbg = document.querySelector(".bground");
 const modalBtn = document.querySelectorAll(".modal-btn");
 const formData = document.querySelectorAll(".formData");
 const closeBtn = document.querySelectorAll(".close");
+const confirmMessage = document.getElementById("confirm-message");
+confirmMessage.style.display = "none";
 
 // launch modal event
 modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
@@ -28,6 +30,7 @@ closeBtn.forEach((btn) => btn.addEventListener("click", closeModal));
 function closeModal() {
   modalbg.style.display = "none";
 }
+
 
 
 //function check if it's empty
@@ -56,23 +59,33 @@ function isNumeric(value) {
   } return true;
 }
 
+
+
 //function at least one radio checked
 function atLeastOneCheck(input) {
   for (var i = 0; i < input.length ; i++){
     if (input[i].checked){
       return true;
     }
-  } return false;
-  
+  } return false;  
 }
 
 // function for accepting general condition
 function checkboxChecked(input) {
   if (input.checked){
     return true;
-  } alert('cgv') 
-  return false;
+  } return false;
 }
+
+//function for error message span building
+const createErrorSpan = (message) => {
+  const errorMessage = document.createElement('span');
+  errorMessage.className = "error-style";
+  errorMessage.innerHTML = message;
+  return errorMessage;
+}
+
+
 
 //validation of the formular
 
@@ -80,29 +93,30 @@ function validate(){
   let isErrors = false;
   if(!nameCheked(document.forms['reserve']['firstName'].value)){
     isErrors = true;
+    document.forms['reserve']['firstName'].insertAdjacentElement('afterend', createErrorSpan('Veuillez entrer 2 caractères ou plus pour le prénom.'));
   }
   if(!nameCheked(document.forms['reserve']['lastName'].value)){
     isErrors = true;
+    document.forms['reserve']['lastName'].insertAdjacentElement('afterend', createErrorSpan('Veuillez entrer 2 caractères ou plus pour le nom.'));
   }
   if(!isEmail(document.forms['reserve']['email'].value)){
     isErrors = true;
+    document.forms['reserve']['email'].insertAdjacentElement('afterend', createErrorSpan('Veuillez entrer une adresse mail valide.'));
   }
   if(!isNumeric(document.forms['reserve']['quantity'].value)){
     isErrors = true;
+    document.forms['reserve']['quantity'].insertAdjacentElement('afterend', createErrorSpan('Veuillez entrer une valeur'));
   }
   if(!atLeastOneCheck(document.forms['reserve']['location'])){
     isErrors = true;
+    document.getElementsByClassName("formData")[5].insertAdjacentElement('afterend', createErrorSpan('Vous devez choisir au moins une ville.'));
   }
   if(!checkboxChecked(document.forms['reserve']['cgv'])){
     isErrors = true;
+    document.getElementsByClassName("checkbox2-label")[0].insertAdjacentElement('afterend', createErrorSpan('Vous devez accepter les termes et conditions.'));
   }
   if(isErrors == true){
     return false;
   }
-
-
-
-
-
-
 }
+
