@@ -41,6 +41,16 @@ function nameCheked(value) {
       return false;
 }
 
+//function check if it's a phone number
+function isPhone(value){
+  const regEmail = new RegExp('^[+][(]{0,1}[0-9]{1,4}[)]{0,1}[-\s./0-9]$');
+
+  if (regEmail.test(value)){    
+    return true;
+  } 
+    return false;
+}
+
 //function check if it's an email
 function isEmail(value){
   const regEmail = new RegExp('^[0-9a-z._-]+@{1}[0-9a-z.-]{2,}[.]{1}[a-z]{2,5}$','i');
@@ -78,8 +88,8 @@ function checkboxChecked(input) {
 
 //function for error message span building
 const createErrorSpan = (message) => {
-  const errorMessage = document.createElement('span');
-  errorMessage.className = "error-style";
+  const errorMessage = document.createElement('div');
+  errorMessage.className = "error";
   errorMessage.innerHTML = message;
   return errorMessage;
 }
@@ -89,29 +99,50 @@ const createErrorSpan = (message) => {
 //validation of the formular
 
 function validate(){
+  let formReserve = document.forms['reserve'];
   let isErrors = false;
-  if(!nameCheked(document.forms['reserve']['firstName'].value)){
+  document.querySelectorAll('.error').forEach(error => error.remove());
+  document.querySelectorAll('.error--bg').forEach(error => error.classList.remove('error--bg'));
+  let firstName = formReserve['firstName'];
+  let lastName = formReserve['lastName'];
+  let phone = formReserve['phone'];
+  let email = formReserve['email'];
+  let quantity = formReserve['quantity'];
+  let location = formReserve['location'];
+  let cgv = formReserve['cgv'];
+  if(!nameCheked(firstName.value)){
     isErrors = true;
-    document.forms['reserve']['firstName'].insertAdjacentElement('afterend', createErrorSpan('Veuillez entrer 2 caractères ou plus pour le prénom.'));
+    firstName.classList.add('error--bg');
+    firstName.insertAdjacentElement('afterend', createErrorSpan('Veuillez entrer 2 caractères ou plus pour le prénom.'));
   }
-  if(!nameCheked(document.forms['reserve']['lastName'].value)){
+  if(!nameCheked(lastName.value)){
     isErrors = true;
-    document.forms['reserve']['lastName'].insertAdjacentElement('afterend', createErrorSpan('Veuillez entrer 2 caractères ou plus pour le nom.'));
+    lastName.classList.add('error--bg');
+    lastName.insertAdjacentElement('afterend', createErrorSpan('Veuillez entrer 2 caractères ou plus pour le nom.'));
   }
-  if(!isEmail(document.forms['reserve']['email'].value)){
+  if(!isPhone(phone.value)){
     isErrors = true;
-    document.forms['reserve']['email'].insertAdjacentElement('afterend', createErrorSpan('Veuillez entrer une adresse mail valide.'));
+    phone.classList.add('error--bg');
+    phone.insertAdjacentElement('afterend', createErrorSpan('Veuillez entrer 2 caractères ou plus pour le nom.'));
   }
-  if(!isNumeric(document.forms['reserve']['quantity'].value)){
+  if(!isEmail(email.value)){
     isErrors = true;
-    document.forms['reserve']['quantity'].insertAdjacentElement('afterend', createErrorSpan('Veuillez entrer une valeur'));
+    email.classList.add('error--bg');
+    email.insertAdjacentElement('afterend', createErrorSpan('Veuillez entrer une adresse mail valide.'));
   }
-  if(!atLeastOneCheck(document.forms['reserve']['location'])){
+  if(!isNumeric(quantity.value)){
     isErrors = true;
+    quantity.classList.add('error--bg');
+    quantity.insertAdjacentElement('afterend', createErrorSpan('Veuillez entrer une valeur'));
+  }
+  if(!atLeastOneCheck(location)){
+    isErrors = true;
+    location[0].parentNode.classList.add('error--bg');
     document.getElementsByClassName("formData")[5].insertAdjacentElement('afterend', createErrorSpan('Vous devez choisir au moins une ville.'));
   }
-  if(!checkboxChecked(document.forms['reserve']['cgv'])){
+  if(!checkboxChecked(cgv)){
     isErrors = true;
+    document.getElementsByClassName("checkbox2-label")[0].children.classList.add('error--bg');
     document.getElementsByClassName("checkbox2-label")[0].insertAdjacentElement('afterend', createErrorSpan('Vous devez accepter les termes et conditions.'));
   }
   if(isErrors == true){
