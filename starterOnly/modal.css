@@ -234,7 +234,7 @@ input {
 }
 
 .error--bg {
-  border: 2px solid #e54858;
+  border: 2px solid #e54858 !important;
 }
 
 /* 
