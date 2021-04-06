@@ -13,6 +13,7 @@ const modalBtn = document.querySelectorAll(".modal-btn");
 const formData = document.querySelectorAll(".formData");
 const closeBtn = document.querySelectorAll(".close");
 
+
 // launch modal event
 modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
 
@@ -29,7 +30,6 @@ function closeModal() {
   modalbg.style.display = "none";
 }
 
-
 //function check if it's empty
 function nameCheked(value) {
   value = value.trim();
@@ -37,6 +37,16 @@ function nameCheked(value) {
       return true;
     }
       return false;
+}
+
+//function check if it's a phone number
+function isPhone(value){
+  const regPhone = new RegExp('^(\\+33|0|0033)[1-9][0-9]{8}$');
+
+  if (regPhone.test(value)){    
+    return true;
+  } 
+    return false;
 }
 
 //function check if it's an email
@@ -49,12 +59,30 @@ function isEmail(value){
     return false;
 }
 
-//function is numerique
-function isNumeric(value) {
-  if (isNaN(value)){
+//function check the age
+const checkAge = () => {
+  let yearOfBirth = document.querySelector('input[type="date"]').value.split('-')[0];
+  let monthOfBirth = document.querySelector('input[type="date"]').value.split('-')[1];
+  let dayOfBirth = document.querySelector('input[type="date"]').value.split('-')[2];
+  let age = 18;
+  let myDate = new Date();
+  myDate.setFullYear(yearOfBirth, monthOfBirth - 1, dayOfBirth);
+
+  var currentDate = new Date();
+  currentDate.setFullYear(currentDate.getFullYear() - age);
+  if ((currentDate - myDate) < 0 || document.getElementById('birthdate').value == "" ) {
     return false;
   } return true;
 }
+
+//function is numerique
+function isNumeric(value) {  
+  if (isNaN(value) || value < 0 || value > 99 || value == ""){
+    return false;
+  } return true;
+}
+
+
 
 //function at least one radio checked
 function atLeastOneCheck(input) {
@@ -62,47 +90,83 @@ function atLeastOneCheck(input) {
     if (input[i].checked){
       return true;
     }
-  } return false;
-  
+  } return false;  
 }
 
 // function for accepting general condition
 function checkboxChecked(input) {
   if (input.checked){
     return true;
-  } alert('cgv') 
-  return false;
+  } return false;
 }
+
+//function for error message span building
+const createErrorSpan = (message) => {
+  const errorMessage = document.createElement('div');
+  errorMessage.className = "error";
+  errorMessage.innerHTML = message;
+  return errorMessage;
+}
+
+
 
 //validation of the formular
 
 function validate(){
   let isErrors = false;
-  if(!nameCheked(document.forms['reserve']['firstName'].value)){
+  let formReserve = document.forms['reserve'];
+  let firstName = formReserve['firstName'];
+  let lastName = formReserve['lastName'];
+  let phone = formReserve['phone'];
+  let email = formReserve['email'];
+  let age = formReserve['birthdate'];
+  let quantity = formReserve['quantity'];
+  let location = formReserve['location'];
+  let cgv = formReserve['cgv'];
+  document.querySelectorAll('.error').forEach(error => error.remove());
+  document.querySelectorAll('.error--bg').forEach(error => error.classList.remove('error--bg'));
+  if(!nameCheked(firstName.value)){
     isErrors = true;
+    firstName.classList.add('error--bg');
+    firstName.insertAdjacentElement('afterend', createErrorSpan('Veuillez entrer 2 caractères ou plus pour le prénom.'));
   }
-  if(!nameCheked(document.forms['reserve']['lastName'].value)){
+  if(!nameCheked(lastName.value)){
     isErrors = true;
+    lastName.classList.add('error--bg');
+    lastName.insertAdjacentElement('afterend', createErrorSpan('Veuillez entrer 2 caractères ou plus pour le nom.'));
   }
-  if(!isEmail(document.forms['reserve']['email'].value)){
+  if(!isPhone(phone.value)){
     isErrors = true;
+    phone.classList.add('error--bg');
+    phone.insertAdjacentElement('afterend', createErrorSpan('Veuillez entrer un numéro de téléphone valide.'));
   }
-  if(!isNumeric(document.forms['reserve']['quantity'].value)){
+  if(!isEmail(email.value)){
     isErrors = true;
+    email.classList.add('error--bg');
+    email.insertAdjacentElement('afterend', createErrorSpan('Veuillez entrer une adresse mail valide.'));
   }
-  if(!atLeastOneCheck(document.forms['reserve']['location'])){
+  if(!checkAge(age.value)){
     isErrors = true;
+    age.classList.add('error--bg');
+    age.insertAdjacentElement('afterend', createErrorSpan('Vous devez avoir au moins 18 ans.'));
   }
-  if(!checkboxChecked(document.forms['reserve']['cgv'])){
+  if(!isNumeric(quantity.value)){
     isErrors = true;
+    quantity.classList.add('error--bg');
+    quantity.insertAdjacentElement('afterend', createErrorSpan('Veuillez entrer une valeur comprise entre 0 et 99.'));
+  }
+  if(!atLeastOneCheck(location)){
+    isErrors = true;
+    location[0].parentNode.classList.add('error--bg');
+    document.getElementsByClassName("formData")[6].insertAdjacentElement('afterend', createErrorSpan('Vous devez choisir au moins une ville.'));
+  }
+  if(!checkboxChecked(cgv)){
+    isErrors = true;
+    document.getElementsByClassName("checkbox2-label")[0].children[0].classList.add('error--bg');
+    document.getElementsByClassName("checkbox2-label")[0].insertAdjacentElement('afterend', createErrorSpan('Vous devez accepter les termes et conditions.'));
   }
   if(isErrors == true){
     return false;
   }
-
-
-
-
-
-
 }
+
