@@ -12,6 +12,7 @@ const modalbg = document.querySelector(".bground");
 const modalBtn = document.querySelectorAll(".modal-btn");
 const formData = document.querySelectorAll(".formData");
 const closeBtn = document.querySelectorAll(".close");
+const submitBtn = document.querySelectorAll(".btn-submit");
 
 
 // launch modal event
@@ -167,6 +168,15 @@ function validate(){
   }
   if(isErrors == true){
     return false;
+  } else {
+    const modalBody = document.querySelector('.modal-body');
+    modalBody.classList.add('message-sended');
+    modalBody.innerHTML = 'Merci, votre formulaire a bien été envoyé !';
+    var buttonClose = document.createElement("button");
+    buttonClose.classList.add('button','button:hover','button-close');
+    buttonClose.innerHTML = "Fermer";
+    modalBody.appendChild(buttonClose);
+    buttonClose.addEventListener ("click", closeModal);    
   }
 }
 
