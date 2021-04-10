@@ -1,9 +1,16 @@
-function editNav() {
-  var x = document.getElementById("myTopnav");
-  if (x.className === "topnav") {
-    x.className += " responsive";
+// Hamburger Responsive menu
+function showResponsiveMenu() {
+  var menu = document.getElementById("topnav_responsive_menu");
+  var icon = document.getElementById("topnav_hamburger_icon");
+  var navContainer = document.getElementById("nav_container");
+  if (menu.className === "") {
+    menu.className = "open";
+    icon.className = "open";
+    navContainer.style.overflowY = "hidden";
   } else {
-    x.className = "topnav";
+    menu.className = "";                    
+    icon.className = "";
+    navContainer.style.overflowY = "";
   }
 }
 
@@ -83,9 +90,14 @@ function isNumeric(value) {
   } return true;
 }
 
-
-
 //function at least one radio checked
+
+//Clean radio box on refresh
+const chbx = document.getElementsByName("location");
+for(let i=0; i < chbx.length; i++) {
+    chbx[i].checked = false;
+}
+
 function atLeastOneCheck(input) {
   for (var i = 0; i < input.length ; i++){
     if (input[i].checked){
