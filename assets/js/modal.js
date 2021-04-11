@@ -20,6 +20,10 @@ const modalBtn = document.querySelectorAll(".modal-btn");
 const formData = document.querySelectorAll(".formData");
 const closeBtn = document.querySelectorAll(".close");
 const submitBtn = document.querySelectorAll(".btn-submit");
+let formReserve = document.forms['reserve'];
+const modalBody = document.querySelector('.modal-body');
+var valmessage = document.createElement('p');
+var buttonClose = document.createElement("button");
 
 
 // launch modal event
@@ -29,6 +33,10 @@ modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
 function launchModal() {
   modalbg.style.display = "block";
   document.body.style.overflow = "hidden";
+  valmessage.remove();
+  buttonClose.remove();
+  modalBody.classList.remove('message-sended');
+  formReserve.style.display = 'block';
 }
 
 // close modal event
@@ -122,7 +130,6 @@ const createErrorSpan = (message) => {
 
 function validate(){
   let isErrors = false;
-  let formReserve = document.forms['reserve'];
   let firstName = formReserve['firstName'];
   let lastName = formReserve['lastName'];
   let phone = formReserve['phone'];
@@ -188,13 +195,10 @@ function validate(){
     const bio = () => {
       this.firstName + this.lastname + 'né(e) le' + this.birthdate + 'tél : ' + this.phonenumber + this.email + 'A déjà participé : ' + this.previousparticipation + 'à' + this.location + '.';
     } 
-    const modalBody = document.querySelector('.modal-body');
     formReserve.style.display = 'none';
     modalBody.classList.add('message-sended');
-    var valmessage = document.createElement('p');
     valmessage.innerHTML='Merci, votre formulaire a bien été envoyé !';
     modalBody.append(valmessage);
-    var buttonClose = document.createElement("button");
     buttonClose.classList.add('button','button:hover','button-close');
     buttonClose.innerHTML = "Fermer";
     modalBody.appendChild(buttonClose);
