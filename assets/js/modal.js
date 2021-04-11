@@ -1,9 +1,16 @@
-function editNav() {
-  var x = document.getElementById("myTopnav");
-  if (x.className === "topnav") {
-    x.className += " responsive";
+// Hamburger Responsive menu
+function showResponsiveMenu() {
+  var menu = document.getElementById("topnav_responsive_menu");
+  var icon = document.getElementById("topnav_hamburger_icon");
+  var navContainer = document.getElementById("nav_container");
+  if (menu.className === "") {
+    menu.className = "open";
+    icon.className = "open";
+    navContainer.style.overflowY = "hidden";
   } else {
-    x.className = "topnav";
+    menu.className = "";                    
+    icon.className = "";
+    navContainer.style.overflowY = "";
   }
 }
 
@@ -13,6 +20,10 @@ const modalBtn = document.querySelectorAll(".modal-btn");
 const formData = document.querySelectorAll(".formData");
 const closeBtn = document.querySelectorAll(".close");
 const submitBtn = document.querySelectorAll(".btn-submit");
+let formReserve = document.forms['reserve'];
+const modalBody = document.querySelector('.modal-body');
+var valmessage = document.createElement('p');
+var buttonClose = document.createElement("button");
 
 
 // launch modal event
@@ -21,6 +32,11 @@ modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
 // launch modal form
 function launchModal() {
   modalbg.style.display = "block";
+  document.body.style.overflow = "hidden";
+  valmessage.remove();
+  buttonClose.remove();
+  modalBody.classList.remove('message-sended');
+  formReserve.style.display = 'block';
 }
 
 // close modal event
@@ -29,6 +45,7 @@ closeBtn.forEach((btn) => btn.addEventListener("click", closeModal));
 // close modal form
 function closeModal() {
   modalbg.style.display = "none";
+  document.body.style.overflow = "auto";
 }
 
 //function check if it's empty
@@ -83,8 +100,6 @@ function isNumeric(value) {
   } return true;
 }
 
-
-
 //function at least one radio checked
 function atLeastOneCheck(input) {
   for (var i = 0; i < input.length ; i++){
@@ -115,7 +130,6 @@ const createErrorSpan = (message) => {
 
 function validate(){
   let isErrors = false;
-  let formReserve = document.forms['reserve'];
   let firstName = formReserve['firstName'];
   let lastName = formReserve['lastName'];
   let phone = formReserve['phone'];
@@ -169,14 +183,27 @@ function validate(){
   if(isErrors == true){
     return false;
   } else {
-    const modalBody = document.querySelector('.modal-body');
+    let participant = {
+      firstname: firstName.value,
+      lastname: lastName.value,
+      phonenumber: phone.value,
+      email: email.value,
+      birthdate: age.value,
+      previousparticipations : quantity.value,
+      location: location.value
+    };
+    const bio = () => {
+      this.firstName + this.lastname + 'né(e) le' + this.birthdate + 'tél : ' + this.phonenumber + this.email + 'A déjà participé : ' + this.previousparticipation + 'à' + this.location + '.';
+    } 
+    formReserve.style.display = 'none';
     modalBody.classList.add('message-sended');
-    modalBody.innerHTML = 'Merci, votre formulaire a bien été envoyé !';
-    var buttonClose = document.createElement("button");
+    valmessage.innerHTML='Merci, votre formulaire a bien été envoyé !';
+    modalBody.append(valmessage);
     buttonClose.classList.add('button','button:hover','button-close');
     buttonClose.innerHTML = "Fermer";
     modalBody.appendChild(buttonClose);
-    buttonClose.addEventListener ("click", closeModal);    
+    buttonClose.addEventListener ("click", closeModal);
+    return false;    
   }
 }
 
