@@ -24,7 +24,7 @@
           <a href="#">Contact</a>
           <a href="#">Évènements passés</a>
         </nav>
-        <a href="javascript:void(0);" id="topnav_hamburger_icon"onclick="showResponsiveMenu()" >
+        <a href="javascript:void(0);" id="topnav_hamburger_icon" onclick="showResponsiveMenu()" >
           <span></span>
           <span></span>
           <span></span>
@@ -44,7 +44,7 @@
       <div class="hero-section">
         <div class="hero-content">
           <h1 class="hero-headline">
-            Marathon national</br>
+            Marathon national<br>
             de jeux vidéos
           </h1>
           <p class="hero-text">Vous aimez jouer ? Notre prochain évènement gaming est ouvert aux réservations... Places limitées !</p>
@@ -61,22 +61,22 @@
         <div class="content">
           <span class="close"></span>
           <div class="modal-body">
-            <form name="reserve" action="index.html" method="get" onsubmit="return validate();">
+            <form name="reserve" action="index.html" autocomplete="off" method="get" onsubmit="return validate();">
               <div class="formData">
                 <label for="firstName">Prénom</label><br />
-                <input class="text-control" type="text" id="firstName" name="firstName"/>
+                <input class="text-control" type="text" id="firstName" name="firstName" value="ere"/>
               </div>
               <div class="formData">
                 <label for="lastName">Nom</label><br />
-                <input class="text-control" type="text" id="lastName" name="lastName" />
+                <input class="text-control" type="text" id="lastName" name="lastName" value="ere"/>
               </div>
               <div class="formData">
                 <label for="phone">Téléphone</label><br />
-                <input class="text-control" type="text" id="phone" name="phone" />
+                <input class="text-control" type="text" id="phone" name="phone" value="0302050401"/>
               </div>
               <div class="formData">
                 <label for="email">E-mail</label><br />
-                <input class="text-control" id="email" name="email" />
+                <input class="text-control" id="email" name="email" value="ere@gmail.com"/>
               </div>
               <div class="formData">
                 <label for="birthdate">Date de naissance</label><br />
@@ -84,7 +84,7 @@
               </div>
               <div class="formData">
                 <label for="quantity">À combien de tournois GameOn avez-vous déjà participé ?</label><br />
-                <input class="text-control" type="number" id="quantity" name="quantity" />
+                <input class="text-control" type="number" id="quantity" name="quantity" value="4"/>
               </div>
               <p class="text-label">Quelle ville ?</p>
               <div class="formData" id="locations">

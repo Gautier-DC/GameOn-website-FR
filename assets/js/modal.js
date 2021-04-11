@@ -28,6 +28,7 @@ modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
 // launch modal form
 function launchModal() {
   modalbg.style.display = "block";
+  document.body.style.overflow = "hidden";
 }
 
 // close modal event
@@ -36,6 +37,7 @@ closeBtn.forEach((btn) => btn.addEventListener("click", closeModal));
 // close modal form
 function closeModal() {
   modalbg.style.display = "none";
+  document.body.style.overflow = "auto";
 }
 
 //function check if it's empty
@@ -91,13 +93,6 @@ function isNumeric(value) {
 }
 
 //function at least one radio checked
-
-//Clean radio box on refresh
-const chbx = document.getElementsByName("location");
-for(let i=0; i < chbx.length; i++) {
-    chbx[i].checked = false;
-}
-
 function atLeastOneCheck(input) {
   for (var i = 0; i < input.length ; i++){
     if (input[i].checked){
@@ -181,14 +176,30 @@ function validate(){
   if(isErrors == true){
     return false;
   } else {
+    let participant = {
+      firstname: firstName.value,
+      lastname: lastName.value,
+      phonenumber: phone.value,
+      email: email.value,
+      birthdate: age.value,
+      previousparticipations : quantity.value,
+      location: location.value
+    };
+    const bio = () => {
+      this.firstName + this.lastname + 'né(e) le' + this.birthdate + 'tél : ' + this.phonenumber + this.email + 'A déjà participé : ' + this.previousparticipation + 'à' + this.location + '.';
+    } 
     const modalBody = document.querySelector('.modal-body');
+    formReserve.style.display = 'none';
     modalBody.classList.add('message-sended');
-    modalBody.innerHTML = 'Merci, votre formulaire a bien été envoyé !';
+    var valmessage = document.createElement('p');
+    valmessage.innerHTML='Merci, votre formulaire a bien été envoyé !';
+    modalBody.append(valmessage);
     var buttonClose = document.createElement("button");
     buttonClose.classList.add('button','button:hover','button-close');
     buttonClose.innerHTML = "Fermer";
     modalBody.appendChild(buttonClose);
-    buttonClose.addEventListener ("click", closeModal);    
+    buttonClose.addEventListener ("click", closeModal);
+    return false;    
   }
 }
 
